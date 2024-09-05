@@ -5,6 +5,7 @@
   "type": "module",
   "homepage": "https://github.com/HAVOC-Studios/Keyboard-Tester",
   "scripts": {
+    "dev": "vite",
     "predeploy": "pnpm run build",
     "deploy": "gh-pages -d dist",
     "start": "vite",
