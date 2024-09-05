@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+#root {
+  background-color: #f0f2f5;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  color: #333;
+  font-weight: 500;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.container {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  padding: 1%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.068);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboard {
+  display: inline-block;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.key {
+  width: 45px;
+  height: 45px;
+  margin: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e3e8;
+  border-radius: 6px;
+  border: 1px solid #cfd4da;
+  color: #555;
+  font-size: 0.875rem;
+  transition: background-color 0.2s, transform 0.1s;
+  user-select: none;
+}
+
+.key-wide {
+  width: 60px;
+  /* Wider keys for Backspace, Tab, etc. */
+}
+
+.key-backspace {
+  width: 120px;
+  /* Wider width for the Backspace key */
+}
+
+.key-capslock {
+  width: 100px;
+}
+
+.key.pressed {
+  background-color: #5bee60;
+  /* Green color when pressed */
+  color: white;
+  transform: scale(0.92);
+  /* Slight scale effect when pressed */
+}
+
+.key-space {
+  width: 240px;
+  /* Width of the Space key */
+}
+
+.settings {
+  position: absolute;
+  background-color: #cbcdd0;
+  border: 1px solid #cfd4da;
+  bottom: 0;
+  border-radius: .3rem;
+  right: 0;
+  margin: 2%;
+  padding: .3%;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings:hover {
+  scale: 1.05;
+}
+
+.settings>svg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.key:hover {
+  cursor: pointer;
+  background-color: #d1d7e0;
+}
+
+.smaller-text {
+  font-size: .9rem;
+}
