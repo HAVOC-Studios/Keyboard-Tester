@@ -88,9 +88,31 @@ function SettingsPage({
 function App() {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const [showSettings, setShowSettings] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [volume, setVolume] = useState(0.5);
-  const [theme, setTheme] = useState('light');
+
+  // Load settings from localStorage or use default values
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
+    return JSON.parse(localStorage.getItem('soundEnabled') || 'true');
+  });
+  const [volume, setVolume] = useState<number>(() => {
+    return parseFloat(localStorage.getItem('volume') || '0.5');
+  });
+  const [theme, setTheme] = useState<string>(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  // Save settings to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('soundEnabled', JSON.stringify(soundEnabled));
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('volume', volume.toString());
+  }, [volume]);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.body.setAttribute('data-theme', theme); // Optional: Apply theme to the body
+  }, [theme]);
 
   useEffect(() => {
     const clickSound = new Audio('/click.mp3');
@@ -140,7 +162,6 @@ function App() {
 
   const handleThemeChange = (newTheme: string) => {
     setTheme(newTheme);
-    document.body.setAttribute('data-theme', newTheme); // Optional: Apply theme to the body
   };
 
   return (
@@ -161,7 +182,7 @@ function App() {
         />
       ) : (
         <>
-          <h1 className='smaller-text'>Simply press any key on your keyboard to start testing - it will turn green if that key works</h1>
+          <h1>Simply press any key on your keyboard to start testing - it will turn green if that key works</h1>
           <div className="keyboard">
             {KEYBOARD_LAYOUT.map((row, rowIndex) => (
               <div key={rowIndex} className="keyboard-row">
