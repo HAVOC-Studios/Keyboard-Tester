@@ -11,6 +11,7 @@
   --key-pressed-color: #76ff03;
   --key-border-color: #bdbdbd;
   --header-background-color: #f5f5f5;
+  --inverted-color: #000000;
 }
 
 /* Dark theme */
@@ -34,7 +35,7 @@ body {
 }
 
 h1 {
-  color: #333;
+  color: var(--text-color);
   font-weight: 500;
   font-size: 2rem;
   margin: 0;
@@ -56,7 +57,7 @@ h1 {
   position: absolute;
   top: 0;
   padding: 1%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.068);
+  border-bottom: 1px solid var(--key-border-color);
   width: 100%;
   display: flex;
   align-items: center;
@@ -130,7 +131,7 @@ h1 {
   margin: 2%;
   padding: .3%;
   display: flex;
-  color: white;
+  color: var(--text-color);
   align-items: center;
   justify-content: center;
 }
@@ -153,14 +154,6 @@ h1 {
   font-size: .9rem;
 }
 
-/* App.css */
-:root {
-  --background-color-light: #fff;
-  --text-color-light: #000;
-  --background-color-dark: #333;
-  --text-color-dark: #fff;
-}
-
 [data-theme="light"] {
   background-color: var(--background-color-light);
   color: var(--text-color-light);
@@ -169,6 +162,7 @@ h1 {
 [data-theme="dark"] {
   background-color: var(--background-color-dark);
   color: var(--text-color-dark);
+  --inverted-color: #ffffff;
 }
 
 .container {
@@ -177,7 +171,7 @@ h1 {
 
 .settings-page {
   border: 1px solid #ccc;
-  color: black;
+  color: var(--text-color);
   padding: 10px;
 }
 

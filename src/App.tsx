@@ -13,6 +13,29 @@ const KEYBOARD_LAYOUT = [
   ['Ctrl', 'Meta', 'Alt', 'Space', 'Alt', 'Meta', 'Menu', 'Ctrl']
 ];
 
+function invertColor(hex) {
+  // Remove the hash symbol if present
+  hex = hex.replace(/^#/, '');
+
+  // Parse the hex values
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+
+  // Invert the colors
+  const invertedR = (255 - r).toString(16).padStart(2, '0');
+  const invertedG = (255 - g).toString(16).padStart(2, '0');
+  const invertedB = (255 - b).toString(16).padStart(2, '0');
+
+  // Return the inverted color as a hex code
+  return `#${invertedR}${invertedG}${invertedB}`;
+}
+
+const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color').trim();
+const invertedColor = invertColor(backgroundColor);
+document.documentElement.style.setProperty('--inverted-color', invertedColor);
+
+
 function normalizeKey(key: string): string {
   switch (key) {
     case ' ':
