@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { IoSettingsOutline } from "react-icons/io5";
-import Header from "./Header"
+import Header from "./Header";
 import './App.css';
 
 const KEYBOARD_LAYOUT = [
@@ -39,7 +39,6 @@ function SettingsPage({ onClose }: { onClose: () => void }) {
     <div className="settings-page">
       <h2>Settings</h2>
       <button onClick={onClose}>Close</button>
-      {/* Additional settings components can be added here */}
     </div>
   );
 }
@@ -49,9 +48,18 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
+    const clickSound = new Audio('/click.mp3'); // Ensure the path is correct
+    clickSound.volume = 0.5; // Optional: Adjust volume if needed
+
     const handleKeyDown = (event: KeyboardEvent) => {
       const normalizedKey = normalizeKey(event.key);
       setPressedKeys((prevKeys) => new Set(prevKeys).add(normalizedKey));
+
+      // Play the click sound
+      clickSound.currentTime = 0; // Reset sound to play from the start
+      clickSound.play().catch((error) => {
+        console.log('Error playing sound:', error);
+      });
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
@@ -71,6 +79,7 @@ function App() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
