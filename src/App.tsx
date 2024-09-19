@@ -34,11 +34,53 @@ function normalizeKey(key: string): string {
   }
 }
 
-function SettingsPage({ onClose }: { onClose: () => void }) {
+function SettingsPage({
+  onClose,
+  soundEnabled,
+  onToggleSound,
+  volume,
+  onVolumeChange,
+  theme,
+  onThemeChange,
+}: {
+  onClose: () => void;
+  soundEnabled: boolean;
+  onToggleSound: () => void;
+  volume: number;
+  onVolumeChange: (volume: number) => void;
+  theme: string;
+  onThemeChange: (theme: string) => void;
+}) {
   return (
     <div className="settings-page">
       <h2>Settings</h2>
-      <button onClick={onClose}>Close</button>
+      <div className="setting-item">
+        <label>Enable Sound</label>
+        <input
+          type="checkbox"
+          checked={soundEnabled}
+          onChange={onToggleSound}
+        />
+      </div>
+      <div className="setting-item">
+        <label>Volume</label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          value={volume}
+          onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
+          disabled={!soundEnabled}
+        />
+      </div>
+      <div className="setting-item">
+        <label>Theme</label>
+        <select value={theme} onChange={(e) => onThemeChange(e.target.value)}>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
     </div>
   );
 }
@@ -46,20 +88,24 @@ function SettingsPage({ onClose }: { onClose: () => void }) {
 function App() {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const [showSettings, setShowSettings] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [volume, setVolume] = useState(0.5);
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    const clickSound = new Audio('/click.mp3'); // Ensure the path is correct
-    clickSound.volume = 0.5; // Optional: Adjust volume if needed
+    const clickSound = new Audio('/click.mp3');
+    clickSound.volume = volume;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const normalizedKey = normalizeKey(event.key);
       setPressedKeys((prevKeys) => new Set(prevKeys).add(normalizedKey));
 
-      // Play the click sound
-      clickSound.currentTime = 0; // Reset sound to play from the start
-      clickSound.play().catch((error) => {
-        console.log('Error playing sound:', error);
-      });
+      if (soundEnabled) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch((error) => {
+          console.log('Error playing sound:', error);
+        });
+      }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
@@ -78,21 +124,41 @@ function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
-
+  }, [soundEnabled, volume]);
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
   };
 
+  const handleToggleSound = () => {
+    setSoundEnabled(!soundEnabled);
+  };
+
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+  };
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
+    document.body.setAttribute('data-theme', newTheme); // Optional: Apply theme to the body
+  };
+
   return (
-    <div className='container'>
+    <div className={`container ${theme}`}>
       <Header />
       <div id='settings_button' className='settings' onClick={toggleSettings}>
         <IoSettingsOutline />
       </div>
       {showSettings ? (
-        <SettingsPage onClose={toggleSettings} />
+        <SettingsPage
+          onClose={toggleSettings}
+          soundEnabled={soundEnabled}
+          onToggleSound={handleToggleSound}
+          volume={volume}
+          onVolumeChange={handleVolumeChange}
+          theme={theme}
+          onThemeChange={handleThemeChange}
+        />
       ) : (
         <>
           <h1 className='smaller-text'>Simply press any key on your keyboard to start testing - it will turn green if that key works</h1>

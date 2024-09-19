@@ -128,3 +128,35 @@ h1 {
 .smaller-text {
   font-size: .9rem;
 }
+
+/* App.css */
+:root {
+  --background-color-light: #fff;
+  --text-color-light: #000;
+  --background-color-dark: #333;
+  --text-color-dark: #fff;
+}
+
+[data-theme="light"] {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+[data-theme="dark"] {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.container {
+  padding: 20px;
+}
+
+.settings-page {
+  border: 1px solid #ccc;
+  color: black;
+  padding: 10px;
+}
+
+.setting-item {
+  margin: 10px 0;
+}
